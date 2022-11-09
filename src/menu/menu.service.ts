@@ -36,7 +36,7 @@ export class MenuService {
   }
   async findAll() {
     const result = await this.menuRepository.find({relations:{submenu_list:true}})
-    console.log(result);
+    // console.log(result);
     
     return result;
   }

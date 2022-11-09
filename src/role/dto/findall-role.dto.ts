@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsInt,IsOptional, Max, Min } from "class-validator";
-
-export class FindAllUserDto{
+export class FindAllDto{
   @ApiProperty({name:"skip",default:0,type:Number})
   @IsOptional()   //是否为空为空后面不走
   @IsInt({message:"参数skip必须为整数"})

@@ -1,23 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { Role } from './entities/role.entity';
 
 @Injectable()
 export class RoleService {
+  constructor(
+    private readonly dataSource:DataSource,
+    @InjectRepository(Role) private readonly roleRepository:Repository<Role>
+  ){}
   create(createRoleDto: CreateRoleDto) {
     return 'This action adds a new role';
   }
 
-  findAll() {
-    return `This action returns all role`;
+  async findAll(skip:number,take:number) {
+    const result = await this.roleRepository.find({skip,take})
+    return result;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} role`;
+    
+    return this.roleRepository.findOne({where:{role_id:id}})
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`;
+  async update(id: number, updateRoleDto: UpdateRoleDto) {
+    const role = await this.findOne(id)
+    if(!role) return "该id没有数据"
+    if(role.role_name === updateRoleDto.role_name) return "当前已经为该权限了"
+    role.role_name = updateRoleDto.role_name
+    await this.roleRepository.update(id,role)
+    return "更新成功";
   }
 
   remove(id: number) {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Connection from 'mysql2/typings/mysql/lib/Connection';
 import { GlobalService } from 'src/global/global_module/global.service';
 import { Role } from 'src/role/entities/role.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindAllUserDto } from './dto/findAll-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -52,12 +52,14 @@ export class UserService {
 
   async findOne(id: number) {
     let info = await this.userRepository.find({
-    select:{user_id:true,username:true,userInfo:{userInfo_id:true}},
+    select:{user_id:true,username:true},
     relations:{userInfo:{
-      role:{},
+      role:true,
     }},
     where:{user_id:id}
     })
+    // if(info.length<1) return "该id没有数据"
+    
     return {
       user:info[0]
     };
@@ -76,7 +78,6 @@ export class UserService {
       total
     };
   }
-
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const userOne = await this.findOne(id)
@@ -122,6 +123,13 @@ try {
     }finally{
       await QueryRunner.release()
     }
-    return "操作成功";
+    return "删除成功";
+  }
+  async like(){
+    return await this.userRepository.find({
+      where:{
+        username:Like(`as%`)
+      }
+    })
   }
 }
