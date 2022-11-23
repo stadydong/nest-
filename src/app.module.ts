@@ -14,11 +14,8 @@ import { Permission } from './entities/permission.entity';
 
 @Module({
   imports: [
-    // ServeStaticModule.forRoot({
-    //   rootPath:join(__dirname,"..","public")
-    // }),
     AuthModule,TypeOrmModule.forRoot({
-    type: 'mysql',
+    type: 'mariadb',
     host: 'localhost',
     port: 3306,
     username: 'root',
@@ -28,7 +25,6 @@ import { Permission } from './entities/permission.entity';
     autoLoadEntities:true,
     retryAttempts:10,
     retryDelay:50,
-    // entities: [__dirname + '/../**/*.entity.js']
   }), UserModule, RoleModule, MenuModule, GlobalModule,TypeOrmModule.forFeature([Permission])],
   exports:[TypeOrmModule],
   controllers: [AppController],
