@@ -6,6 +6,7 @@ import { ValidationPipe }from '@nestjs/common'
 import { SwaggerConfig } from './global/swagger.config'
 import * as express from 'express'
 import { join } from 'path';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   //swagger配置  路径在/api里

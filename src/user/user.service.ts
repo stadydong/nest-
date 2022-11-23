@@ -1,11 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Connection from 'mysql2/typings/mysql/lib/Connection';
 import { GlobalService } from 'src/global/global_module/global.service';
 import { Role } from 'src/role/entities/role.entity';
-import { DataSource, Like, Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { FindAllUserDto } from './dto/findAll-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity'
 import { UserInfo } from './entities/userInfo.entity';

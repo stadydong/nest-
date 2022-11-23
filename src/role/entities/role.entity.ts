@@ -11,5 +11,5 @@ export class Role {
     enum:RoleType,
     default:RoleType.Default
   })
-  role_name:string
+  role_name:RoleType
 }

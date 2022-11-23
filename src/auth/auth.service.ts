@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt'
+import { userInfo } from 'os';
 
 import { Role } from 'src/role/entities/role.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -15,30 +16,21 @@ export class AuthService {
   ){}
   async validateUser(username:string,pwd:string){
     
-    const userInfo = await this.userRepository.findOneBy({username})
-    console.log(userInfo);
-    
-    if(userInfo.password === pwd){
-      //验证通过
-      const { password,...user } = userInfo
-      console.log(user);
-      return user
+    const user = (await this.userRepository.find({where:{username},select:{password:false},relations:{userInfo:{role:true}}}))[0]
+    if(user.password === pwd){
+      const userInfo ={
+        username,
+        user_id:user.user_id,
+        role:user.userInfo.role
+      } 
+      return userInfo
     }
     //验证账号密码不通过
-
-    
     return null
   }
   async login(user:User_Type){
-    // await 
-    console.log(user);
-    
-    const payload = {
-      user_id:user.user_id,
-      username:user.username,
-      role_id:user.role_id
-    }
-    const access_token = this.jwtService.sign(payload)
+    //user是一个 pyload
+    const access_token = this.jwtService.sign(user)
     return {
       access_token,
       username:user.username,

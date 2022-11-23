@@ -8,5 +8,5 @@ export class CreateRoleDto {
   @IsNotEmpty({message:"值不能为空"})
   @IsString({message:"类型字符串"})
   @IsEnum(RoleType,{message:"角色错误"})
-  role_name:string
+  role_name:RoleType
 }

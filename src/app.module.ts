@@ -9,6 +9,7 @@ import { MenuModule } from './menu/menu.module';
 import { GlobalModule } from './global/global_module/global.module';
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path';
+import { Permission } from './entities/permission.entity';
 
 
 @Module({
@@ -28,7 +29,7 @@ import { join } from 'path';
     retryAttempts:10,
     retryDelay:50,
     // entities: [__dirname + '/../**/*.entity.js']
-  }), UserModule, RoleModule, MenuModule, GlobalModule],
+  }), UserModule, RoleModule, MenuModule, GlobalModule,TypeOrmModule.forFeature([Permission])],
   exports:[TypeOrmModule],
   controllers: [AppController],
   providers: [AppService,],

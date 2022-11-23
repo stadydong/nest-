@@ -14,14 +14,10 @@ export class JWTStrategy extends PassportStrategy(Strategy){
     }as StrategyOptions)
   }
   async validate(payload:User_Type){
-    // console.log("jwt validate");
-    
-    // console.log(payload);
-    // console.log(new Date().getTime());
-    
     return {
       username:payload.username,
-      user_id:payload.user_id
+      user_id:payload.user_id,
+      role:payload.role
     }
   }
 }
